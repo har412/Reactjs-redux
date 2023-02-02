@@ -1,31 +1,35 @@
 // connect is used for class based component
 import { useDispatch, useSelector } from 'react-redux';
 import classes from './Counter.module.css';
-
+import {counterActions} from '../store/index'
 const Counter = () => {
   // automatically adds the subscription so that the state is updated automatically
-  let counter = useSelector(state => state.counter);
-  let showcounter = useSelector(state => state.showCounter);
+  let counter = useSelector(state => state.counter.counter);
+  let showcounter = useSelector(state => state.counter.showCounter);
+  // let auth = useSelector(state => state.auth.isAuthenticated);
+
+
   const dispatch=useDispatch()
 
   const toggleCounterHandler = () => {
-  dispatch({type:'toggle'})
+    dispatch(counterActions.toggleCounter())
  
   };
+
   
   const increment = () => {
-    dispatch({type:'increment'})
+    dispatch(counterActions.increment())
     // console.log("incre")
     // counter = counter+1;
   };
 
   const decrement = () => {
-    dispatch({type:'decrement'})
+    dispatch(counterActions.decrement())
     // counter = counter-1;
     //  console.log("incre")
   };
   const increaseHandler = () => {
-    dispatch({type:'increase',amount:5})
+    dispatch(counterActions.increase(10))
     // counter = counter-1;
     //  console.log("incre")
   };
