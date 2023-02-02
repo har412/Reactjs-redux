@@ -1,48 +1,44 @@
 // connect is used for class based component
-
-import React, { Component } from 'react'
-
-import { useDispatch, useSelector , connect} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classes from './Counter.module.css';
 
+const Counter = () => {
+  // automatically adds the subscription so that the state is updated automatically
+  let counter = useSelector(state => state.counter);
+  let showcounter = useSelector(state => state.showCounter);
+  const dispatch=useDispatch()
 
-
-class Counter extends Component {
-
-    incrementHandler(){
-      this.props.increment();
-    }
-    decrementHandler(){
-      this.props.decrement();
-    }
-    toggleCounterHandler(){
-      this.props.toggle();
-    }
+  const toggleCounterHandler = () => {
+  dispatch({type:'toggle'})
  
+  };
+  
+  const increment = () => {
+    dispatch({type:'increment'})
+    // console.log("incre")
+    // counter = counter+1;
+  };
 
-  render() {
-    return (
-      <main className={classes.counter}>
+  const decrement = () => {
+    dispatch({type:'decrement'})
+    // counter = counter-1;
+    //  console.log("incre")
+  };
+  const increaseHandler = () => {
+    dispatch({type:'increase',amount:5})
+    // counter = counter-1;
+    //  console.log("incre")
+  };
+  return (
+    <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{this.props.counter}</div>
-      <button onClick={this.incrementHandler.bind(this)}>Increment</button>
-      <button onClick={this.decrementHandler.bind(this)}>Decrement</button>
-      <button onClick={this.toggleCounterHandler.bind(this)}>Toggle Counter</button>
+      {(showcounter) && <div className={classes.value}>{counter}</div>}
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+      <button onClick={toggleCounterHandler}>Toggle Counter</button>
+      <button onClick={increaseHandler}>Increase by 5</button>
     </main>
-    )
-  }
+  );
+};
 
-
-}
-const mapStateToProps = (state) => {
-  return {
-    counter:state.counter
-  };
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    increment:()=>dispatch({type:"increment"}) 
-  };
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Counter);
+export default Counter;
